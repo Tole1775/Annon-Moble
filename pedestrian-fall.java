@@ -28,4 +28,16 @@ public class PedestrianMonitor {
             executeEmergencyBroadcast();
         }
     }
+
+    private boolean checkFreefall(float x, float y, float z) {
+        // Detect freefall: total linear acceleration near zero means no surface contact
+        float magnitude = (float) Math.sqrt(x * x + y * y + z * z);
+        return magnitude < 0.5f; // Below 0.5 m/s² is considered freefall
+    }
+
+    private void executeEmergencyBroadcast() {
+        // Broadcast emergency alert with last known GPS location
+        AnnonAudio.speak("Emergency detected. Contacting emergency services.");
+        AnnonBio.broadcastEmergency();
+    }
 }

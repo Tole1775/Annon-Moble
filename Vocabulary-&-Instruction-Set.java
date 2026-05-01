@@ -42,6 +42,7 @@ public class AnnonVocabularyEngine {
 
     private void broadcast(Command cmd) {
         String phrase = lexicon.get(cmd);
+        if (phrase == null) return;
         // Handshake with the Audio Engine
         AnnonAudio.speak(phrase);
         // Sync with Haptics (Vibration on the side of the command)

@@ -13,16 +13,28 @@ public class AnnonNavigationManager {
         boolean hasFloorPlan; // From Hall of Records
         String securityLevel; // Private vs Public
 
-        public Destination(String name, double lat, double lon, boolean hasFloorPlan) {
+        public Destination(String name, double lat, double lon, boolean hasFloorPlan, String securityLevel) {
             this.name = name;
             this.lat = lat;
             this.lon = lon;
             this.hasFloorPlan = hasFloorPlan;
+            this.securityLevel = securityLevel;
+        }
+    }
+
+    // Add a destination to the local cache (keys stored lowercase for lookup)
+    public void addDestination(Destination dest) {
+        if (dest != null && dest.name != null) {
+            publicRecordCache.put(dest.name.toLowerCase(), dest);
         }
     }
 
     // Set destination via Verbal Command (e.g., "Go to City Hall")
     public void setDestination(String inputName) {
+        if (inputName == null) {
+            AnnonAudio.speak("No destination provided.");
+            return;
+        }
         Destination target = publicRecordCache.get(inputName.toLowerCase());
 
         if (target != null) {

@@ -56,6 +56,9 @@ public class HazardMemory {
         double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2))
                     + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                     * Math.cos(Math.toRadians(theta));
+        // Clamp to [-1, 1] to guard against floating-point rounding that would
+        // push the value slightly outside acos's valid domain, causing NaN.
+        dist = Math.max(-1.0, Math.min(1.0, dist));
         return Math.acos(dist) * 6371000; // Return meters
     }
 }

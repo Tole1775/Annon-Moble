@@ -13,6 +13,10 @@ public class AnnonNavigationManager {
         boolean hasFloorPlan; // From Hall of Records
         String securityLevel; // Private vs Public
 
+        public Destination(String name, double lat, double lon, boolean hasFloorPlan) {
+            this(name, lat, lon, hasFloorPlan, null);
+        }
+
         public Destination(String name, double lat, double lon, boolean hasFloorPlan, String securityLevel) {
             this.name = name;
             this.lat = lat;
@@ -26,6 +30,9 @@ public class AnnonNavigationManager {
     public void addDestination(Destination dest) {
         if (dest != null && dest.name != null) {
             publicRecordCache.put(dest.name.toLowerCase(), dest);
+            AnnonAudio.speak(dest.name + " added to memory.");
+        } else {
+            AnnonAudio.speak("Invalid destination. Could not save.");
         }
     }
 
